@@ -4,11 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const body_parser_1 = __importDefault(require("body-parser"));
 const db_1 = __importDefault(require("./db"));
 const app = (0, express_1.default)();
 const port = 3000;
-app.use(body_parser_1.default.json());
+app.use(express_1.default.json());
 // Example route to get all users
 app.get('/users', (req, res) => {
     db_1.default.query('SELECT * FROM users', (err, results) => {
@@ -18,6 +17,19 @@ app.get('/users', (req, res) => {
             return;
         }
         res.json(results);
+    });
+});
+app.post('/api/submit', (req, res) => {
+    const { firstName, lastName, gender, age, healthCondition, symptoms, questionsChronicIllness, symptomsList } = req.body;
+    const query = 'INSERT INTO users (firstname, lastname, gender, age, health_condition, health_symptoms, symptomsList, chronic_illness) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    const values = [firstName, lastName, gender, age, healthCondition, symptoms, symptomsList, questionsChronicIllness,];
+    db_1.default.query(query, values, (error, results) => {
+        if (error) {
+            console.error('Error inserting user:', error);
+            res.status(500).send('Error inserting user');
+            return;
+        }
+        res.status(200).send('User inserted successfully');
     });
 });
 app.listen(port, () => {

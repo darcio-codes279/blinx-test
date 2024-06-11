@@ -17,18 +17,18 @@ Requirements:
 • Health Condition (Dropdown: Healthy, Minor illness, Chronic illness)✅
 • Have you experienced any symptoms in the last 14 days? (Yes/No)✅
 • If yes, list the symptoms experienced (if applicable)✅
-• Implement branching logic based on user responses:✅
+• Implement branching logic based on user responses:
 • If the user selects "Chronic illness" in the Health Condition field, additional
-questions related to their condition should be displayed.
-• If the user selects "Yes" to experiencing symptoms, additional questions✅
-related to their symptoms should be displayed.
+questions related to their condition should be displayed.✅
+• If the user selects "Yes" to experiencing symptoms, additional questions
+related to their symptoms should be displayed.✅
 • Ensure validation for required fields and appropriate error handling.✅
 
 2. Backend Development (NodeJS):
-• Develop a RESTful API using NodeJS and Typescript to handle form submissions.✅
+• Develop a RESTful API using NodeJS and Typescript to handle form submissions.
 • Create endpoints for:
 • Submitting a new questionnaire entry.
-• Retrieving all questionnaire entries.
+• Retrieving all questionnaire entries.✅
 • Implement data validation and sanitization on the server-side.
 
 3. Database (MySQL):

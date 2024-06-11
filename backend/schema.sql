@@ -10,7 +10,9 @@ CREATE TABLE users (
     gender VARCHAR(100) NOT NULL,
     age INTEGER NOT NULL,
     health_condition VARCHAR(100) NOT NULL,
-    health_symptoms VARCHAR(100)
+    health_symptoms VARCHAR(100),
+    symptomsList VARCHAR(100)
+    chronic_illness VARCHAR(100),
 );
 
 INSERT INTO users (firstname, lastname, gender, age, health_condition, health_symptoms) 

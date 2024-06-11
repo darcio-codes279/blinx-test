@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
 import db from './db';
+
 
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Example route to get all users
 app.get('/users', (req: Request, res: Response) => {
@@ -19,28 +19,23 @@ app.get('/users', (req: Request, res: Response) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
-});
+app.post('/api/submit', (req: Request, res: Response) => {
+  const { firstName, lastName, gender, age, healthCondition, symptoms, questionsChronicIllness, symptomsList } = req.body;
 
-// Endpoint for submitting a new questionnaire entry
-app.post('/questionnaire', (req: Request, res: Response) => {
-  const { firstName, lastName, age, gender, healthCondition, symptoms, questionsChronicIllness, symptomsList } = req.body;
+  const query = 'INSERT INTO users (firstname, lastname, gender, age, health_condition, health_symptoms, symptomsList, chronic_illness) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const values = [firstName, lastName, gender, age, healthCondition, symptoms, symptomsList, questionsChronicIllness,];
 
-  // Perform validation and sanitization on the input data
-
-  // Insert the questionnaire entry into the database
-  db.query('INSERT INTO users (firstName, lastName, age, gender, healthCondition, symptoms, questionsChronicIllness, symptomsList) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [firstName, lastName, age, gender, healthCondition, symptoms, questionsChronicIllness, symptomsList], (error, results) => {
+  db.query(query, values, (error, results) => {
     if (error) {
-      console.error('Error inserting questionnaire entry:', error);
-      res.status(500).send('Error inserting questionnaire entry');
+      console.error('Error inserting user:', error);
+      res.status(500).send('Error inserting user');
       return;
     }
-
-    res.status(201).send('Questionnaire entry submitted successfully');
+    res.status(200).send('User inserted successfully');
   });
 });
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });
+
