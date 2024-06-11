@@ -10,31 +10,31 @@ Requirements:
 
 1. Frontend Development (React):
 • Create a React application with Typescript. ✅
-• Design and implement a form questionnaire with the following fields:✅
-• Name
-• Age
-• Gender
-• Health Condition (Dropdown: Healthy, Minor illness, Chronic illness)
-• Have you experienced any symptoms in the last 14 days? (Yes/No)
-• If yes, list the symptoms experienced (if applicable)
-• Implement branching logic based on user responses:
+• Design and implement a form questionnaire with the following fields:
+• Name✅
+• Age✅
+• Gender✅
+• Health Condition (Dropdown: Healthy, Minor illness, Chronic illness)✅
+• Have you experienced any symptoms in the last 14 days? (Yes/No)✅
+• If yes, list the symptoms experienced (if applicable)✅
+• Implement branching logic based on user responses:✅
 • If the user selects "Chronic illness" in the Health Condition field, additional
 questions related to their condition should be displayed.
-• If the user selects "Yes" to experiencing symptoms, additional questions
+• If the user selects "Yes" to experiencing symptoms, additional questions✅
 related to their symptoms should be displayed.
-• Ensure validation for required fields and appropriate error handling.
+• Ensure validation for required fields and appropriate error handling.✅
 
 2. Backend Development (NodeJS):
-• Develop a RESTful API using NodeJS and Typescript to handle form submissions.
+• Develop a RESTful API using NodeJS and Typescript to handle form submissions.✅
 • Create endpoints for:
 • Submitting a new questionnaire entry.
 • Retrieving all questionnaire entries.
 • Implement data validation and sanitization on the server-side.
 
 3. Database (MySQL):
-• Set up a MySQL database to store questionnaire entries.
-• Design a schema to accommodate the questionnaire fields.
-• Establish a connection between the NodeJS backend and the MySQL database.
+• Set up a MySQL database to store questionnaire entries.✅
+• Design a schema to accommodate the questionnaire fields.✅
+• Establish a connection between the NodeJS backend and the MySQL database.✅
 
 4. Unit Testing:
 • Write unit tests for both frontend and backend components.

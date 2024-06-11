@@ -117,6 +117,14 @@ export default function App() {
             <option value="minorIllness">Minor Illness</option>
             <option value="chronicIllness">Chronic Illness</option>
           </select>
+          {healthConditionEnum.chronicIllness === "chronicIllness" && (
+            <div>
+              <label>List the chronic illnesses experienced(if applicable)</label>
+              <input {...register("questionsChronicIllness", {
+                required: "If you selected chronic ilnesses, this field is required",
+              })} />
+            </div>
+          )}
           {errors.healthCondition && <span className="text-red-500">{errors.healthCondition.message}</span>}
           <label>Have you experienced any symptoms in the last 14 days ?</label>
           <select {...register("symptoms", { validate: validateSelectOptions })} >
