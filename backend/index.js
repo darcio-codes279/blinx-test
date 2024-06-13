@@ -21,7 +21,7 @@ app.get('/users', (req, res) => {
 });
 app.post('/api/submit', (req, res) => {
     const { firstName, lastName, gender, age, healthCondition, symptoms, questionsChronicIllness, symptomsList } = req.body;
-    const query = 'INSERT INTO users (firstname, lastname, gender, age, health_condition, health_symptoms, symptomsList, chronic_illness) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO users (firstname, lastname, gender, age, health_condition, health_symptoms, symptomsList, chronic_illness) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     const values = [firstName, lastName, gender, age, healthCondition, symptoms, symptomsList, questionsChronicIllness,];
     db_1.default.query(query, values, (error, results) => {
         if (error) {
