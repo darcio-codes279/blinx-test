@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 
@@ -50,40 +51,22 @@ interface IFormInput {
 export default function App() {
   const { register, handleSubmit, watch, control, reset, formState: { errors } } = useForm<IFormInput>();
   const symptomsValue = watch("symptoms");
-  const [formState, setFormState] = useState<'loading' | 'successful' | 'failed'>('loading');
-
-  // const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
+  // const [formState, setFormState] = useState<'loading' | 'successful' | 'failed'>('loading');
 
   const onError = (errors: FieldErrors<IFormInput>) => {
     console.log(errors);
-    toast.error('Form submission failed');
   }
 
-  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    fetch("/api/submit", requestOptions)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.text();
-        console.log("response:", response)
+  const onSubmit: SubmitHandler<IFormInput> = data => {
+    axios.post('http://localhost:3000/api/submit', data)
+      .then(response => {
+        console.log(response.data);
+        reset()
+        toast.success('Form submitted successfully!');
       })
-      .then((data) => {
-        console.log(data);
-        toast.success('Form submitted successfully');
-        reset();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        toast.error('Form submission failed');
+      .catch(error => {
+        console.error('There was an error!', error);
+        toast.error('Form submission failed!');
       });
   };
 
@@ -135,15 +118,19 @@ export default function App() {
             <option value="healthy">Healthy</option>
             <option value="minorIllness">Minor Illness</option>
             <option value="chronicIllness">Chronic Illness</option>
-            {/* {healthConditionEnum.chronicIllness === "chronicIllness" && (
-              <div>
-                <label>List the chronic illnesses experienced(if applicable)</label>
-                <input {...register("questionsChronicIllness", {
-                  required: "If you selected chronic ilnesses, this field is required",
-                })} />
-              </div>
-            )} */}
           </select>
+          {errors.healthCondition && <span className="text-red-500">{errors.healthCondition.message}</span>}
+          {healthConditionEnum.chronicIllness === "chronicIllness" && (
+            <div>
+              <label>List the chronic illnesses experienced(if applicable)</label>
+              <input {...register("questionsChronicIllness", {
+                required: "If you selected chronic ilness, this field is required",
+              })} />
+              <div>
+                {errors.questionsChronicIllness && <span className="text-red-500">{errors.questionsChronicIllness.message}</span>}
+              </div>
+            </div>
+          )}
           {errors.healthCondition && <span className="text-red-500">{errors.healthCondition.message}</span>}
           <label>Have you experienced any symptoms in the last 14 days ?</label>
           <select {...register("symptoms", { validate: validateSelectOptions })} >
