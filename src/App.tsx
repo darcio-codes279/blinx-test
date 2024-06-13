@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 
 // • Create a React application with Typescript. ✅
 // • Design and implement a form questionnaire with the following fields:
@@ -45,15 +46,17 @@ interface IFormInput {
   symptomsList?: string;
 }
 
+
 export default function App() {
-  const { register, handleSubmit, watch, control, reset, formState: { errors, isSubmitting, isSubmitted, isValid } } = useForm<IFormInput>();
+  const { register, handleSubmit, watch, control, reset, formState: { errors } } = useForm<IFormInput>();
   const symptomsValue = watch("symptoms");
+  const [formState, setFormState] = useState<'loading' | 'successful' | 'failed'>('loading');
 
   // const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
 
   const onError = (errors: FieldErrors<IFormInput>) => {
     console.log(errors);
-    alert("Form submission failed");
+    toast.error('Form submission failed');
   }
 
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
@@ -66,16 +69,23 @@ export default function App() {
     };
 
     fetch("/api/submit", requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+        console.log("response:", response)
+      })
       .then((data) => {
         console.log(data);
+        toast.success('Form submitted successfully');
         reset();
       })
       .catch((error) => {
         console.error("Error:", error);
+        toast.error('Form submission failed');
       });
   };
-
 
   const validateSelectOptions = (value: string) => {
     if (value === "") {
@@ -85,6 +95,7 @@ export default function App() {
 
   return (
     <div className="w-screen h-screen">
+      <Toaster />
       <h1 className="text-5xl text-center p-10">Healthcare Questionnaire</h1>
       <div className="flex flex-row justify-center">
         <form onSubmit={handleSubmit(onSubmit, onError)} className="flex flex-col gap-4">
