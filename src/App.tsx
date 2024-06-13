@@ -58,7 +58,7 @@ export default function App() {
   }
 
   const onSubmit: SubmitHandler<IFormInput> = data => {
-    axios.post('http://localhost:3000/api/submit', data)
+    axios.post('/api/submit', data)
       .then(response => {
         console.log(response.data);
         reset()
@@ -69,6 +69,8 @@ export default function App() {
         toast.error('Form submission failed!');
       });
   };
+
+
 
   const validateSelectOptions = (value: string) => {
     if (value === "") {

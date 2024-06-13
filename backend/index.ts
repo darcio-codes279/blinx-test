@@ -3,7 +3,7 @@ import db from './db';
 
 
 const app = express();
-const port = 3000;
+const port = 8080;
 
 app.use(express.json());
 
@@ -19,11 +19,16 @@ app.get('/users', (req: Request, res: Response) => {
   });
 });
 
-app.post('/api/submit', (req: Request, res: Response) => {
+app.post("/api/submit", (req: Request, res: Response) => {
   const { firstName, lastName, gender, age, healthCondition, symptoms, questionsChronicIllness, symptomsList } = req.body;
 
+  // if (!firstName || !lastName || !gender || !age || !healthCondition || !symptoms || !questionsChronicIllness || !symptomsList) {
+  //   res.status(400).send('Missing required fields');
+  //   return;
+  // }
+
   const query = 'INSERT INTO users (firstname, lastname, gender, age, health_condition, health_symptoms, symptomsList, chronic_illness) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-  const values = [firstName, lastName, gender, age, healthCondition, symptoms, symptomsList, questionsChronicIllness,];
+  const values = [firstName, lastName, gender, age, healthCondition, symptoms, symptomsList, questionsChronicIllness];
 
   db.query(query, values, (error, results) => {
     if (error) {
